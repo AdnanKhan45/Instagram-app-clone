@@ -1,16 +1,9 @@
-# instagram_clone_app
+Hello Everybody! 
 
-A new Flutter project.
+We've decided to teach real app development on YouTube. As there are lots of tutorials but they're teaching most basic stuff, So we start building Instagram clone app with Clean Architecture + Firebase (Full-Stack). In this series you'll learn how we can work with larger applications and how we can maintain our apps in future in order not to mix everything with each other which later come up with a big headache, and app start falling apart.
 
-## Getting Started
+With this understanding of how we can build larger applications and then how to maintain them you'll be able to get your Freelance clients and also get a Job.
 
-This project is a starting point for a Flutter application.
+The source code is open source = FREE.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Enjoy!
