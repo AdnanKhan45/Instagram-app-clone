@@ -85,7 +85,9 @@ class SignUpPage extends StatelessWidget {
                 Text("Already have an account? ", style: TextStyle(color: primaryColor),),
                 InkWell(
                   onTap: () {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SignInPage()), (route) => false);
+                    Navigator.pushNamedAndRemoveUntil(context, PageConst.signInPage, (route) => false);
+
+                    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SignInPage()), (route) => false);
                   },
                   child:  Text(
                     "Sign In.",

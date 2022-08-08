@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_app/consts.dart';
+import 'package:instagram_clone_app/features/presentation/page/profile/edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -15,7 +16,10 @@ class ProfilePage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
-            child: Icon(Icons.menu, color: primaryColor,),
+            child: InkWell(
+            onTap: () {
+              _openBottomModalSheet(context);
+            },child: Icon(Icons.menu, color: primaryColor,)),
           )
         ],
       ),
@@ -82,5 +86,68 @@ class ProfilePage extends StatelessWidget {
         ),
       )
     );
+  }
+
+  _openBottomModalSheet(BuildContext context) {
+    return showModalBottomSheet(context: context, builder: (context) {
+      return Container(
+        height: 150,
+        decoration: BoxDecoration(color: backGroundColor.withOpacity(.8)),
+        child: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    "More Options",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: primaryColor),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Divider(
+                  thickness: 1,
+                  color: secondaryColor,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, PageConst.editProfilePage);
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
+                    },
+                    child: Text(
+                      "Edit Profile",
+                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: primaryColor),
+                    ),
+                  ),
+                ),
+                sizeVer(7),
+                Divider(
+                  thickness: 1,
+                  color: secondaryColor,
+                ),
+                sizeVer(7),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    "Logout",
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: primaryColor),
+                  ),
+                ),
+                sizeVer(7),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 }

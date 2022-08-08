@@ -1,9 +1,11 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone_app/consts.dart';
+import 'package:instagram_clone_app/features/presentation/page/post/comment/comment_page.dart';
+
+import '../post/update_post_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -44,7 +46,9 @@ class HomePage extends StatelessWidget {
                     Text("Username", style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),)
                   ],
                 ),
-                Icon(Icons.more_vert, color: primaryColor,)
+                GestureDetector(onTap: () {
+                  _openBottomModalSheet(context);
+                },child: Icon(Icons.more_vert, color: primaryColor,))
               ],
             ),
             sizeVer(10),
@@ -61,7 +65,10 @@ class HomePage extends StatelessWidget {
                   children: [
                     Icon(Icons.favorite, color: primaryColor,),
                     sizeHor(10),
-                    Icon(Feather.message_circle, color: primaryColor,),
+                    GestureDetector(onTap: () {
+                      Navigator.pushNamed(context, PageConst.commentPage);
+                      //Navigator.push(context, MaterialPageRoute(builder: (context) => CommentPage()));
+                    },child: Icon(Feather.message_circle, color: primaryColor,)),
                     sizeHor(10),
                     Icon(Feather.send, color: primaryColor,),
                   ],
@@ -70,6 +77,8 @@ class HomePage extends StatelessWidget {
 
               ],
             ),
+            sizeVer(10),
+            Text("34 likes", style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),),
             sizeVer(10),
             Row(
               children: [
@@ -87,5 +96,70 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _openBottomModalSheet(BuildContext context) {
+    return showModalBottomSheet(context: context, builder: (context) {
+      return Container(
+        height: 150,
+        decoration: BoxDecoration(color: backGroundColor.withOpacity(.8)),
+        child: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    "More Options",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: primaryColor),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Divider(
+                  thickness: 1,
+                  color: secondaryColor,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    "Delete Post",
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: primaryColor),
+                  ),
+                ),
+                sizeVer(7),
+                Divider(
+                  thickness: 1,
+                  color: secondaryColor,
+                ),
+                sizeVer(7),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, PageConst.updatePostPage);
+
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePostPage()));
+
+                    },
+                    child: Text(
+                      "Update Post",
+                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: primaryColor),
+                    ),
+                  ),
+                ),
+                sizeVer(7),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 }
