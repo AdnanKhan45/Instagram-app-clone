@@ -39,4 +39,6 @@ With this understanding of how we can build larger applications and then how to 
 
 The source code is open source = FREE.
 
+To show some love 💖 by starring ⭐ the Repository 
+
 Enjoy!
