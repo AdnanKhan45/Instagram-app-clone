@@ -31,6 +31,9 @@ dependencies:
     sdk: flutter
   #state management
   flutter_bloc: ^8.0.1
+
+
+
   equatable: ^2.0.3
   flutter_icons: ^1.1.0
   #Firebase
