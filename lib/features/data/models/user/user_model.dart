@@ -71,6 +71,7 @@ class UserModel extends UserEntity {
     "totalFollowing": totalFollowing,
     "totalPosts": totalPosts,
     "website": website,
+    "bio": bio,
     "profileUrl": profileUrl,
     "followers": followers,
     "following": following,
