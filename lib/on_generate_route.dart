@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_app/consts.dart';
+import 'package:instagram_clone_app/features/domain/entities/user/user_entity.dart';
 import 'package:instagram_clone_app/features/presentation/page/credential/sign_in_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/credential/sign_up_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/post/comment/comment_page.dart';
@@ -15,7 +16,13 @@ class OnGenerateRoute {
 
     switch(settings.name) {
       case PageConst.editProfilePage: {
-        return routeBuilder(EditProfilePage());
+        if (args is UserEntity) {
+          return routeBuilder(EditProfilePage(currentUser: args,));
+
+        } else {
+          return routeBuilder(NoPageFound());
+        }
+
       }
       case PageConst.updatePostPage: {
         return routeBuilder(UpdatePostPage());
