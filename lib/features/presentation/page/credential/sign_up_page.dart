@@ -1,16 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_app/consts.dart';
 import 'package:instagram_clone_app/features/domain/entities/user/user_entity.dart';
 import 'package:instagram_clone_app/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:instagram_clone_app/features/presentation/cubit/credentail/credential_cubit.dart';
-import 'package:instagram_clone_app/features/presentation/page/credential/sign_in_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/main_screen/main_screen.dart';
 import 'package:instagram_clone_app/features/presentation/widgets/button_container_widget.dart';
 import 'package:instagram_clone_app/features/presentation/widgets/form_container_widget.dart';
-
+import 'package:instagram_clone_app/profile_widget.dart';
+import 'package:instagram_clone_app/injection_container.dart' as di;
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -26,6 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _bioController = TextEditingController();
 
   bool _isSigningUp = false;
+  bool _isUploading = false;
 
   @override
   void dispose() {
@@ -35,6 +39,27 @@ class _SignUpPageState extends State<SignUpPage> {
     _usernameController.dispose();
     super.dispose();
   }
+
+  File? _image;
+
+  Future selectImage() async {
+    try {
+      final pickedFile = await ImagePicker.platform.getImage(source: ImageSource.gallery);
+
+      setState(() {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+        } else {
+          print("no image has been selected");
+        }
+      });
+
+    } catch(e) {
+      toast("some error occured $e");
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,16 +110,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 Container(
                   width: 60,
                   height: 60,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30)
-                  ),
-                  child: Image.asset("assets/profile_default.png"),
+
+                  child: ClipRRect(borderRadius: BorderRadius.circular(30),child: profileWidget(image: _image))
                 ),
                 Positioned(
                   right: -10,
                   bottom: -15,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: selectImage,
                     icon: Icon(Icons.add_a_photo, color: blueColor,),
                   ),
                 ),
@@ -133,7 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
             },
           ),
           sizeVer(10),
-          _isSigningUp == true ? Row(
+          _isSigningUp == true || _isUploading == true ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Please wait", style: TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.w400),),
@@ -171,7 +194,8 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  void _signUpUser() {
+
+  Future<void> _signUpUser() async {
     setState(() {
       _isSigningUp = true;
     });
@@ -185,10 +209,10 @@ class _SignUpPageState extends State<SignUpPage> {
           totalFollowing: 0,
           followers: [],
           totalFollowers: 0,
-          profileUrl: "",
           website: "",
           following: [],
           name: "",
+          imageFile: _image
         )
     ).then((value) => _clear());
   }

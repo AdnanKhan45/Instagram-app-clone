@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:instagram_clone_app/features/data/data_sources/remote_data_source/remote_data_source.dart';
 import 'package:instagram_clone_app/features/domain/entities/user/user_entity.dart';
 import 'package:instagram_clone_app/features/domain/repository/firebase_repository.dart';
@@ -34,5 +36,9 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
 
   @override
   Future<void> updateUser(UserEntity user) async => remoteDataSource.updateUser(user);
+
+  @override
+  Future<String> uploadImageToStorage(File? file, bool isPost, String childName) async =>
+      remoteDataSource.uploadImageToStorage(file, isPost, childName);
 
 }
