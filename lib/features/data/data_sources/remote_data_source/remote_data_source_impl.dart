@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:instagram_clone_app/consts.dart';
 import 'package:instagram_clone_app/features/data/data_sources/remote_data_source/remote_data_source.dart';
 import 'package:instagram_clone_app/features/data/models/user/user_model.dart';
+import 'package:instagram_clone_app/features/domain/entities/posts/post_entity.dart';
 import 'package:instagram_clone_app/features/domain/entities/user/user_entity.dart';
 import 'package:uuid/uuid.dart';
 
@@ -187,6 +188,36 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
     final imageUrl = (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
     
     return await imageUrl;
+  }
+
+  @override
+  Future<void> createPost(PostEntity post) {
+    // TODO: implement createPost
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deletePost(PostEntity post) {
+    // TODO: implement deletePost
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> likePost(PostEntity post) {
+    // TODO: implement likePost
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<PostEntity>> readPosts(PostEntity post) {
+    // TODO: implement readPosts
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updatePost(PostEntity post) {
+    // TODO: implement updatePost
+    throw UnimplementedError();
   }
 
 }
