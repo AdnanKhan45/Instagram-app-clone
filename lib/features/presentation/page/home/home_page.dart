@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone_app/consts.dart';
-import 'package:instagram_clone_app/features/presentation/page/post/comment/comment_page.dart';
-
-import '../post/update_post_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
