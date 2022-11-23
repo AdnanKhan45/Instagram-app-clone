@@ -66,5 +66,6 @@ class PostModel extends PostEntity {
     "postImageUrl": postImageUrl,
     "postId": postId,
     "likes": likes,
+    "username": username,
   };
 }
