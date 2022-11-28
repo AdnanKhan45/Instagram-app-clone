@@ -102,7 +102,7 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
               children: [
                 Row(
                   children: [
-                    Icon(widget.post.likes!.contains(_currentUid)?Icons.favorite : Icons.favorite_outline, color: widget.post.likes!.contains(_currentUid)? Colors.red : primaryColor,),
+                    GestureDetector(onTap: _likePost,child: Icon(widget.post.likes!.contains(_currentUid)?Icons.favorite : Icons.favorite_outline, color: widget.post.likes!.contains(_currentUid)? Colors.red : primaryColor,)),
                     sizeHor(10),
                     GestureDetector(onTap: () {
                       Navigator.pushNamed(context, PageConst.commentPage);
