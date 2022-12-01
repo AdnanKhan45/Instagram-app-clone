@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:instagram_clone_app/consts.dart';
+import 'package:instagram_clone_app/features/domain/entities/app_entity.dart';
 import 'package:instagram_clone_app/features/domain/entities/posts/post_entity.dart';
 import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/post/delete_post_usecase.dart';
 import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/user/get_current_uid_usecase.dart';
@@ -105,7 +106,7 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
                     GestureDetector(onTap: _likePost,child: Icon(widget.post.likes!.contains(_currentUid)?Icons.favorite : Icons.favorite_outline, color: widget.post.likes!.contains(_currentUid)? Colors.red : primaryColor,)),
                     sizeHor(10),
                     GestureDetector(onTap: () {
-                      Navigator.pushNamed(context, PageConst.commentPage);
+                      Navigator.pushNamed(context, PageConst.commentPage, arguments: AppEntity(uid: _currentUid, postId: widget.post.postId));
                       //Navigator.push(context, MaterialPageRoute(builder: (context) => CommentPage()));
                     },child: Icon(Feather.message_circle, color: primaryColor,)),
                     sizeHor(10),
@@ -127,7 +128,10 @@ class _SinglePostCardWidgetState extends State<SinglePostCardWidget> {
               ],
             ),
             sizeVer(10),
-            Text("View all ${widget.post.totalComments} comments", style: TextStyle(color: darkGreyColor),),
+            GestureDetector(onTap: () {
+              Navigator.pushNamed(context, PageConst.commentPage, arguments: AppEntity(uid: _currentUid, postId: widget.post.postId));
+
+            },child: Text("View all ${widget.post.totalComments} comments", style: TextStyle(color: darkGreyColor),)),
             sizeVer(10),
             Text("${DateFormat("dd/MMM/yyy").format(widget.post.createAt!.toDate())}", style: TextStyle(color: darkGreyColor),),
 

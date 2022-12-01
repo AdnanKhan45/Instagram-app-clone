@@ -268,6 +268,12 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   }
 
   @override
+  Stream<List<PostEntity>> readSinglePost(String postId) {
+    final postCollection = firebaseFirestore.collection(FirebaseConst.posts).orderBy("createAt", descending: true).where("postId", isEqualTo: postId);
+    return postCollection.snapshots().map((querySnapshot) => querySnapshot.docs.map((e) => PostModel.fromSnapshot(e)).toList());
+  }
+
+  @override
   Future<void> updatePost(PostEntity post) async {
     final postCollection = firebaseFirestore.collection(FirebaseConst.posts);
     Map<String, dynamic> postInfo = Map();
@@ -282,6 +288,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   Future<void> createComment(CommentEntity comment) async {
     final commentCollection = firebaseFirestore.collection(FirebaseConst.posts).doc(comment.postId).collection(FirebaseConst.comment);
 
+    print('asdasd ${comment.description}');
     final newComment = CommentModel(
         userProfileUrl: comment.userProfileUrl,
         username: comment.username,
@@ -355,11 +362,11 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
       List likes = commentRef.get("likes");
       if (likes.contains(currentUid)) {
         commentCollection.doc(comment.commentId).update({
-          "likes": FieldValue.arrayRemove([likes])
+          "likes": FieldValue.arrayRemove([currentUid])
         });
       } else {
         commentCollection.doc(comment.commentId).update({
-          "likes": FieldValue.arrayUnion([likes])
+          "likes": FieldValue.arrayUnion([currentUid])
         });
       }
 
@@ -370,7 +377,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Stream<List<CommentEntity>> readComments(String postId) {
-    final commentCollection = firebaseFirestore.collection(FirebaseConst.posts).doc(postId).collection(FirebaseConst.comment);
+    final commentCollection = firebaseFirestore.collection(FirebaseConst.posts).doc(postId).collection(FirebaseConst.comment).orderBy("createAt", descending: true);
     return commentCollection.snapshots().map((querySnapshot) => querySnapshot.docs.map((e) => CommentModel.fromSnapshot(e)).toList());
   }
 
@@ -384,5 +391,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
     commentCollection.doc(comment.commentId).update(commentInfo);
   }
+
+
 
 }

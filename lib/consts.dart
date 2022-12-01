@@ -21,6 +21,7 @@ class PageConst {
   static const String commentPage = "commentPage";
   static const String signInPage = "signInPage";
   static const String signUpPage = "signUpPage";
+  static const String updateCommentPage = "updateCommentPage";
 }
 
 class FirebaseConst {
