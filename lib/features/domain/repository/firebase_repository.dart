@@ -3,6 +3,11 @@ import 'dart:io';
 
 import 'package:instagram_clone_app/features/domain/entities/comment/comment_entity.dart';
 import 'package:instagram_clone_app/features/domain/entities/posts/post_entity.dart';
+import 'package:instagram_clone_app/features/domain/entities/replay/replay_entity.dart';
+import 'package:instagram_clone_app/features/domain/entities/replay/replay_entity.dart';
+import 'package:instagram_clone_app/features/domain/entities/replay/replay_entity.dart';
+import 'package:instagram_clone_app/features/domain/entities/replay/replay_entity.dart';
+import 'package:instagram_clone_app/features/domain/entities/replay/replay_entity.dart';
 import 'package:instagram_clone_app/features/domain/entities/user/user_entity.dart';
 
 abstract class FirebaseRepository {
@@ -25,6 +30,7 @@ abstract class FirebaseRepository {
   // Post Features
   Future<void> createPost(PostEntity post);
   Stream<List<PostEntity>> readPosts(PostEntity post);
+  Stream<List<PostEntity>> readSinglePost(String postId);
   Future<void> updatePost(PostEntity post);
   Future<void> deletePost(PostEntity post);
   Future<void> likePost(PostEntity post);
@@ -35,5 +41,12 @@ abstract class FirebaseRepository {
   Future<void> updateComment(CommentEntity comment);
   Future<void> deleteComment(CommentEntity comment);
   Future<void> likeComment(CommentEntity comment);
+
+  // Replay Features
+  Future<void> createReplay(ReplayEntity replay);
+  Stream<List<ReplayEntity>> readReplays(ReplayEntity replay);
+  Future<void> updateReplay(ReplayEntity replay);
+  Future<void> deleteReplay(ReplayEntity replay);
+  Future<void> likeReplay(ReplayEntity replay);
 
 }
