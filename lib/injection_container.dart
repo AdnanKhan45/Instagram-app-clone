@@ -17,6 +17,11 @@ import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/p
 import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/post/read_posts_usecase.dart';
 import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/post/read_single_post_usecase.dart';
 import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/post/update_post_usecase.dart';
+import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/replay/create_replay_usecase.dart';
+import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/replay/delete_replay_usecase.dart';
+import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/replay/like_replay_usecase.dart';
+import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/replay/read_replays_usecase.dart';
+import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/replay/update_replay_usecase.dart';
 import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/storage/upload_image_to_storage_usecase.dart';
 import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/user/create_user_usecase.dart';
 import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/user/get_current_uid_usecase.dart';
@@ -32,6 +37,7 @@ import 'package:instagram_clone_app/features/presentation/cubit/comment/comment_
 import 'package:instagram_clone_app/features/presentation/cubit/credentail/credential_cubit.dart';
 import 'package:instagram_clone_app/features/presentation/cubit/post/get_single_post/get_single_post_cubit.dart';
 import 'package:instagram_clone_app/features/presentation/cubit/post/post_cubit.dart';
+import 'package:instagram_clone_app/features/presentation/cubit/replay/replay_cubit.dart';
 import 'package:instagram_clone_app/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';
 import 'package:instagram_clone_app/features/presentation/cubit/user/user_cubit.dart';
 
@@ -95,6 +101,17 @@ Future<void> init() async {
     ),
   );
 
+  // Replay Cubit Injection
+  sl.registerFactory(
+        () => ReplayCubit(
+          createReplayUseCase: sl.call(),
+          deleteReplayUseCase: sl.call(),
+          likeReplayUseCase: sl.call(),
+          readReplaysUseCase: sl.call(),
+          updateReplayUseCase: sl.call()
+    ),
+  );
+
   // Use Cases
   // User
   sl.registerLazySingleton(() => SignOutUseCase(repository: sl.call()));
@@ -125,6 +142,13 @@ Future<void> init() async {
   sl.registerLazySingleton(() => LikeCommentUseCase(repository: sl.call()));
   sl.registerLazySingleton(() => UpdateCommentUseCase(repository: sl.call()));
   sl.registerLazySingleton(() => DeleteCommentUseCase(repository: sl.call()));
+
+  // Replay
+  sl.registerLazySingleton(() => CreateReplayUseCase(repository: sl.call()));
+  sl.registerLazySingleton(() => ReadReplaysUseCase(repository: sl.call()));
+  sl.registerLazySingleton(() => LikeReplayUseCase(repository: sl.call()));
+  sl.registerLazySingleton(() => UpdateReplayUseCase(repository: sl.call()));
+  sl.registerLazySingleton(() => DeleteReplayUseCase(repository: sl.call()));
 
 
   // Repository
