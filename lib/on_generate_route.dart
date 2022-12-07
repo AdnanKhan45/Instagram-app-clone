@@ -6,11 +6,13 @@ import 'package:instagram_clone_app/consts.dart';
 import 'package:instagram_clone_app/features/domain/entities/app_entity.dart';
 import 'package:instagram_clone_app/features/domain/entities/comment/comment_entity.dart';
 import 'package:instagram_clone_app/features/domain/entities/posts/post_entity.dart';
+import 'package:instagram_clone_app/features/domain/entities/replay/replay_entity.dart';
 import 'package:instagram_clone_app/features/domain/entities/user/user_entity.dart';
 import 'package:instagram_clone_app/features/presentation/page/credential/sign_in_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/credential/sign_up_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/post/comment/comment_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/post/comment/edit_comment_page.dart';
+import 'package:instagram_clone_app/features/presentation/page/post/comment/edit_replay_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/post/update_post_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/profile/edit_profile_page.dart';
 
@@ -39,6 +41,14 @@ class OnGenerateRoute {
       case PageConst.updateCommentPage: {
         if (args is CommentEntity) {
           return routeBuilder(EditCommentPage(comment: args,));
+
+        } else {
+          return routeBuilder(NoPageFound());
+        }
+      }
+      case PageConst.updateReplayPage: {
+        if (args is ReplayEntity) {
+          return routeBuilder(EditReplayPage(replay: args,));
 
         } else {
           return routeBuilder(NoPageFound());
