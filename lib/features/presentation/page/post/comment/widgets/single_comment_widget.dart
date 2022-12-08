@@ -54,7 +54,7 @@ class _SingleCommentWidgetState extends State<SingleCommentWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: widget.onLongPressListener,
+      onLongPress: widget.comment.creatorUid == _currentUid? widget.onLongPressListener : null,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: Row(

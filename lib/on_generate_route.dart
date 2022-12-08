@@ -15,6 +15,9 @@ import 'package:instagram_clone_app/features/presentation/page/post/comment/edit
 import 'package:instagram_clone_app/features/presentation/page/post/comment/edit_replay_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/post/update_post_page.dart';
 import 'package:instagram_clone_app/features/presentation/page/profile/edit_profile_page.dart';
+import 'package:instagram_clone_app/features/presentation/page/profile/single_user_profile_page.dart';
+
+import 'features/presentation/page/post/post_detail_page.dart';
 
 class OnGenerateRoute {
   static Route<dynamic>? route(RouteSettings settings) {
@@ -57,6 +60,18 @@ class OnGenerateRoute {
       case PageConst.commentPage: {
         if (args is AppEntity) {
           return routeBuilder(CommentPage(appEntity: args,));
+        }
+        return routeBuilder(NoPageFound());
+      }
+      case PageConst.postDetailPage: {
+        if (args is String) {
+          return routeBuilder(PostDetailPage(postId: args,));
+        }
+        return routeBuilder(NoPageFound());
+      }
+      case PageConst.singleUserProfilePage: {
+        if (args is String) {
+          return routeBuilder(SingleUserProfilePage(otherUserId: args,));
         }
         return routeBuilder(NoPageFound());
       }
