@@ -7,7 +7,10 @@ import 'package:instagram_clone_app/features/domain/entities/user/user_entity.da
 import 'package:instagram_clone_app/features/domain/usecases/firebase_usecases/user/get_current_uid_usecase.dart';
 import 'package:instagram_clone_app/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:instagram_clone_app/features/presentation/cubit/post/post_cubit.dart';
+import 'package:instagram_clone_app/features/presentation/cubit/user/get_single_other_user/get_single_other_user_cubit.dart';
 import 'package:instagram_clone_app/features/presentation/cubit/user/get_single_user/get_single_user_cubit.dart';
+import 'package:instagram_clone_app/features/presentation/cubit/user/user_cubit.dart';
+import 'package:instagram_clone_app/features/presentation/widgets/button_container_widget.dart';
 import 'package:instagram_clone_app/profile_widget.dart';
 import 'package:instagram_clone_app/injection_container.dart' as di;
 class SingleUserProfileMainWidget extends StatefulWidget {
@@ -23,7 +26,7 @@ class _SingleUserProfileMainWidgetState extends State<SingleUserProfileMainWidge
 
   @override
   void initState() {
-    BlocProvider.of<GetSingleUserCubit>(context).getSingleUser(uid: widget.otherUserId);
+    BlocProvider.of<GetSingleOtherUserCubit>(context).getSingleOtherUser(otherUid: widget.otherUserId);
     BlocProvider.of<PostCubit>(context).getPosts(post: PostEntity());
     super.initState();
 
@@ -37,23 +40,23 @@ class _SingleUserProfileMainWidgetState extends State<SingleUserProfileMainWidge
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetSingleUserCubit, GetSingleUserState>(
+    return BlocBuilder<GetSingleOtherUserCubit, GetSingleOtherUserState>(
       builder: (context, userState) {
-        if (userState is GetSingleUserLoaded) {
-          final singleUser = userState.user;
+        if (userState is GetSingleOtherUserLoaded) {
+          final singleUser = userState.otherUser;
           return Scaffold(
               backgroundColor: backGroundColor,
               appBar: AppBar(
                 backgroundColor: backGroundColor,
                 title: Text("${singleUser.username}", style: TextStyle(color: primaryColor),),
                 actions: [
-                  Padding(
+                  _currentUid == singleUser.uid ? Padding(
                     padding: const EdgeInsets.only(right: 10.0),
                     child: InkWell(
                         onTap: () {
                           _openBottomModalSheet(context: context, currentUser: singleUser);
                         },child: Icon(Icons.menu, color: primaryColor,)),
-                  )
+                  ) : Container()
                 ],
               ),
               body: Padding(
@@ -83,20 +86,32 @@ class _SingleUserProfileMainWidgetState extends State<SingleUserProfileMainWidge
                                 ],
                               ),
                               sizeHor(25),
-                              Column(
-                                children: [
-                                  Text("${singleUser.totalFollowers}", style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),),
-                                  sizeVer(8),
-                                  Text("Followers", style: TextStyle(color: primaryColor),)
-                                ],
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, PageConst.followersPage, arguments: singleUser);
+
+                                },
+                                child: Column(
+                                  children: [
+                                    Text("${singleUser.totalFollowers}", style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),),
+                                    sizeVer(8),
+                                    Text("Followers", style: TextStyle(color: primaryColor),)
+                                  ],
+                                ),
                               ),
                               sizeHor(25),
-                              Column(
-                                children: [
-                                  Text("${singleUser.totalFollowing}", style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),),
-                                  sizeVer(8),
-                                  Text("Following", style: TextStyle(color: primaryColor),)
-                                ],
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, PageConst.followingPage, arguments: singleUser);
+
+                                },
+                                child: Column(
+                                  children: [
+                                    Text("${singleUser.totalFollowing}", style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),),
+                                    sizeVer(8),
+                                    Text("Following", style: TextStyle(color: primaryColor),)
+                                  ],
+                                ),
                               )
                             ],
                           )
@@ -106,6 +121,19 @@ class _SingleUserProfileMainWidgetState extends State<SingleUserProfileMainWidge
                       Text("${singleUser.name == ""? singleUser.username : singleUser.name}", style: TextStyle(color: primaryColor,fontWeight: FontWeight.bold),),
                       sizeVer(10),
                       Text("${singleUser.bio}", style: TextStyle(color: primaryColor),),
+                      sizeVer(10),
+                      _currentUid == singleUser.uid ? Container() :ButtonContainerWidget(
+                        text: singleUser.followers!.contains(_currentUid) ?"UnFollow":"Follow",
+                        color: singleUser.followers!.contains(_currentUid) ? secondaryColor.withOpacity(.4) : blueColor,
+                        onTapListener: () {
+                          BlocProvider.of<UserCubit>(context).followUnFollowUser(
+                            user: UserEntity(
+                              uid: _currentUid,
+                              otherUid: widget.otherUserId
+                            )
+                          );
+                        },
+                      ),
                       sizeVer(10),
                       BlocBuilder<PostCubit, PostState>(
                         builder: (context, postState) {

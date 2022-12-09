@@ -20,6 +20,8 @@ abstract class FirebaseRemoteDataSource {
   Future<String> getCurrentUid();
   Future<void> createUser(UserEntity user);
   Future<void> updateUser(UserEntity user);
+  Future<void> followUnFollowUser(UserEntity user);
+
 
   // Cloud Storage
   Future<String> uploadImageToStorage(File? file, bool isPost, String childName);
@@ -45,4 +47,6 @@ abstract class FirebaseRemoteDataSource {
   Future<void> updateReplay(ReplayEntity replay);
   Future<void> deleteReplay(ReplayEntity replay);
   Future<void> likeReplay(ReplayEntity replay);
+  Stream<List<UserEntity>> getSingleOtherUser(String otherUid);
+
 }
