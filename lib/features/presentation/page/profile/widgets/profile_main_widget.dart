@@ -80,32 +80,43 @@ class _ProfileMainWidgetState extends State<ProfileMainWidget> {
                           ],
                         ),
                         sizeHor(25),
-                        Column(
-                          children: [
-                            Text(
-                              "${widget.currentUser.totalFollowers}",
-                              style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
-                            ),
-                            sizeVer(8),
-                            Text(
-                              "Followers",
-                              style: TextStyle(color: primaryColor),
-                            )
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, PageConst.followersPage, arguments: widget.currentUser);
+
+                          },
+                          child: Column(
+                            children: [
+                              Text(
+                                "${widget.currentUser.totalFollowers}",
+                                style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+                              ),
+                              sizeVer(8),
+                              Text(
+                                "Followers",
+                                style: TextStyle(color: primaryColor),
+                              )
+                            ],
+                          ),
                         ),
                         sizeHor(25),
-                        Column(
-                          children: [
-                            Text(
-                              "${widget.currentUser.totalFollowing}",
-                              style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
-                            ),
-                            sizeVer(8),
-                            Text(
-                              "Following",
-                              style: TextStyle(color: primaryColor),
-                            )
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, PageConst.followingPage, arguments: widget.currentUser);
+                          },
+                          child: Column(
+                            children: [
+                              Text(
+                                "${widget.currentUser.totalFollowing}",
+                                style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+                              ),
+                              sizeVer(8),
+                              Text(
+                                "Following",
+                                style: TextStyle(color: primaryColor),
+                              )
+                            ],
+                          ),
                         )
                       ],
                     )

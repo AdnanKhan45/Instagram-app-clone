@@ -15,9 +15,6 @@ class SearchPage extends StatelessWidget {
         BlocProvider<PostCubit>(
           create: (context) => di.sl<PostCubit>(),
         ),
-        BlocProvider<UserCubit>(
-          create: (context) => di.sl<UserCubit>(),
-        ),
       ],
       child: SearchMainWidget(),
     );

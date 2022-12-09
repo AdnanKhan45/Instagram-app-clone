@@ -516,6 +516,81 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
     replayCollection.doc(replay.replayId).update(replayInfo);
   }
 
+  @override
+  Future<void> followUnFollowUser(UserEntity user) async {
+
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users);
+
+    final myDocRef = await userCollection.doc(user.uid).get();
+    final otherUserDocRef = await userCollection.doc(user.otherUid).get();
+
+    if (myDocRef.exists && otherUserDocRef.exists) {
+      List myFollowingList = myDocRef.get("following");
+      List otherUserFollowersList = otherUserDocRef.get("followers");
+
+      // My Following List
+      if (myFollowingList.contains(user.otherUid)) {
+        userCollection.doc(user.uid).update({"following": FieldValue.arrayRemove([user.otherUid])}).then((value) {
+          final userCollection = firebaseFirestore.collection(FirebaseConst.users).doc(user.uid);
+
+          userCollection.get().then((value) {
+            if (value.exists) {
+              final totalFollowing = value.get('totalFollowing');
+              userCollection.update({"totalFollowing": totalFollowing - 1});
+              return;
+            }
+          });
+        });
+      } else {
+        userCollection.doc(user.uid).update({"following": FieldValue.arrayUnion([user.otherUid])}).then((value) {
+          final userCollection = firebaseFirestore.collection(FirebaseConst.users).doc(user.uid);
+
+          userCollection.get().then((value) {
+            if (value.exists) {
+              final totalFollowing = value.get('totalFollowing');
+              userCollection.update({"totalFollowing": totalFollowing + 1});
+              return;
+            }
+          });
+        });
+      }
+
+      // Other User Following List
+      if (otherUserFollowersList.contains(user.uid)) {
+        userCollection.doc(user.otherUid).update({"followers": FieldValue.arrayRemove([user.uid])}).then((value) {
+          final userCollection = firebaseFirestore.collection(FirebaseConst.users).doc(user.otherUid);
+
+          userCollection.get().then((value) {
+            if (value.exists) {
+              final totalFollowers = value.get('totalFollowers');
+              userCollection.update({"totalFollowers": totalFollowers - 1});
+              return;
+            }
+          });
+        });
+      } else {
+        userCollection.doc(user.otherUid).update({"followers": FieldValue.arrayUnion([user.uid])}).then((value) {
+          final userCollection = firebaseFirestore.collection(FirebaseConst.users).doc(user.otherUid);
+
+          userCollection.get().then((value) {
+            if (value.exists) {
+              final totalFollowers = value.get('totalFollowers');
+              userCollection.update({"totalFollowers": totalFollowers + 1});
+              return;
+            }
+          });
+        });
+
+      }
+    }
+  }
+
+  @override
+  Stream<List<UserEntity>> getSingleOtherUser(String otherUid) {
+    final userCollection = firebaseFirestore.collection(FirebaseConst.users).where("uid", isEqualTo: otherUid).limit(1);
+    return userCollection.snapshots().map((querySnapshot) => querySnapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList());
+  }
+
 
 
 }
